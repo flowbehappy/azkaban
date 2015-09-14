@@ -980,16 +980,13 @@ public class ExecutorManager extends EventHandler implements
     // But we can definitely email them.
     Alerter mailAlerter = alerters.get("email");
     if (flow.getStatus() == Status.FAILED || flow.getStatus() == Status.KILLED) {
-      if (options.getFailureEmails() != null
-          && !options.getFailureEmails().isEmpty()) {
-        try {
-          mailAlerter
-              .alertOnError(
-                  flow,
-                  "Executor no longer seems to be running this execution. Most likely due to executor bounce.");
-        } catch (Exception e) {
-          logger.error(e);
-        }
+      try {
+        mailAlerter
+            .alertOnError(
+                flow,
+                "Executor no longer seems to be running this execution. Most likely due to executor bounce.");
+      } catch (Exception e) {
+        logger.error(e);
       }
       if (options.getFlowParameters().containsKey("alert.type")) {
         String alertType = options.getFlowParameters().get("alert.type");
@@ -1011,14 +1008,11 @@ public class ExecutorManager extends EventHandler implements
         }
       }
     } else {
-      if (options.getSuccessEmails() != null
-          && !options.getSuccessEmails().isEmpty()) {
-        try {
+      try {
 
-          mailAlerter.alertOnSuccess(flow);
-        } catch (Exception e) {
-          logger.error(e);
-        }
+        mailAlerter.alertOnSuccess(flow);
+      } catch (Exception e) {
+        logger.error(e);
       }
       if (options.getFlowParameters().containsKey("alert.type")) {
         String alertType = options.getFlowParameters().get("alert.type");
